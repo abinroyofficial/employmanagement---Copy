@@ -26,8 +26,7 @@ class CreateDailyAttendance extends Command
             $existingAttendance = Attendence::where('user_id', $user->id)
                 ->where('date', $date)
                 ->first();
-            $shift1 = Manager::where('user_id', $user->id)->first()->work_time_from;
-            $shift2 = Manager::where('user_id', $user->id)->first()->work_time_to;
+
 
             if (!$existingAttendance) {
                 Attendence::create([
@@ -35,9 +34,8 @@ class CreateDailyAttendance extends Command
                     'date' => $date,
                     'sign_in' => '00:00:00',
                     'sign_out' => '00:00:00',
-                    'shift' => $shift1 - $shift2,
                     'total_time' => 0.00,
-                    'attendance_status' => 'AB',
+                    'attendance_status' => 7 ,
                 ]);
             }
         }

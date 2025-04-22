@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewTaskCreatedEvent;
 use App\Exports\TasksExport;
 use App\Imports\TasksImport;
+use App\Mail\TaskShedule;
 use App\Models\Comment;
 use App\Models\Manager;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
 
@@ -47,6 +51,11 @@ class TaskController extends Controller
             'hours' => 'required|integer|min:1',
             'task_dependencies' => 'nullable|'
         ]);
+        $task_name = $request->task_name;
+        $task_description = $request->task_description;
+        $task_deadline = $request->task_deadline;
+        $user_name = User::where('id', $request->employee)->first()->name;
+
         Task::create([
             'user_id' => $request->employee,
             'task_name' => $request->task_name,
@@ -56,6 +65,11 @@ class TaskController extends Controller
             'task_dependencies' => $request->task_dependencies
 
         ]);
+
+        $email_id = User::where('id', $request->employee)->first()->email;
+        //Mail::to($email_id)->cc('abinroy4321@gmail.com')->send(new TaskShedule($task_name,$task_description,$task_deadline,$user_name));
+        NewTaskCreatedEvent::dispatch($task_name,$task_description,$task_deadline,$user_name, $email_id);
+
         return redirect()->route('add_task', ['id' => $request->employee]);
     }
 
@@ -71,7 +85,7 @@ class TaskController extends Controller
         $task_id = $request->input('task_id');
         $task_data = Task::where('id', $task_id)->first();
         $comment = Comment::where('task_id', $task_id)->get();
-        
+
 
         if ($comment->isNotEmpty()) {
             return response()->json([
@@ -97,17 +111,17 @@ class TaskController extends Controller
     {
         $searchTerm = $request->input('search_task');
         $task_details = Task::where('task_name', 'LIKE', '%' . $searchTerm . '%')
-            ->orWhere('task_description', 'LIKE', '%' . $searchTerm . '%') 
+            ->orWhere('task_description', 'LIKE', '%' . $searchTerm . '%')
             ->get();
 
         if ($request->ajax()) {
             if ($task_details->isNotEmpty()) {
-              
+
                 return response()->json([
                     'view' => view('task.search', compact('task_details', 'searchTerm'))->render(),
                 ]);
             } else {
-                
+
                 return response()->json([
                     'searchresult' => "<h5>No results found</h5>"
                 ]);
@@ -128,9 +142,9 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    public function export() 
+    public function export()
     {
-        $filename='tasks.xlsx';
-        return Excel::download(new TasksExport,$filename);
+        $filename = 'tasks.xlsx';
+        return Excel::download(new TasksExport, $filename);
     }
 }

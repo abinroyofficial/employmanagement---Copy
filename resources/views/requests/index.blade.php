@@ -60,6 +60,7 @@
 </head>
 
 <body>
+    
     <x-nav-manager-request></x-nav-manager-request>
     <table class="table table-bordered">
         <thead style="background-color: grey; color: white">

@@ -14,7 +14,7 @@ class RegulizationController extends Controller
     {
         $data = Manager::where('user_id', $id)->first();
 
-        $value = Attendence::where('user_id', $id)->where('sign_in', '!=', '00:00:00')->where('date', '!=', Carbon::today()->toDateString())->whereIn('attendance_status', [7, 8])->get();
+        $value = Attendence::where('user_id', $id)->where('date', '!=', Carbon::today()->toDateString())->orwhere('sign_in', '!=', '00:00:00')->whereIn('attendance_status', [7, 8])->get();
         
         return view('regulization.view', compact('value', 'data'));
     }

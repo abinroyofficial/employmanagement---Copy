@@ -40,17 +40,15 @@ class LeaveController extends Controller
     {
 
 
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'leave_type' => 'required|string',
-            'from_date' => 'required|date',
-            'to_date' => 'required|date',
-            'section_id' => 'required',
-            'reason' => 'required|string',
-            'remarks' => 'nullable|string',
-        ]);
-
-
+        // $request->validate([
+        //     'user_id' => 'required|exists:users,id',
+        //     'leave_type_id' => 'required',
+        //     'from_date' => 'required|date',
+        //     'to_date' => 'required|date',
+        //     'section_id' => 'required',
+        //     'reason' => 'required|string',
+        //     'remarks' => 'nullable|string',
+        // ]);
 
         $fromDate = Carbon::parse($request->from_date);
         $toDate = Carbon::parse($request->to_date);
@@ -91,7 +89,6 @@ class LeaveController extends Controller
 
         $data = Leave::with('LeaveType')->with('Status')->with('Section')->where('user_id', $id)->orderBy('created_at', 'desc')->get();
         $data2 = Workfromhome::with('LeaveType')->with('Status')->with('Section')->where('user_id', $id)->orderBy('created_at', 'desc')->get();
-       
         $data3 = Regulization::where('user_id', $id)->orderBy('created_at', 'desc')->get();
 
 

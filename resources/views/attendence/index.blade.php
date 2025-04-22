@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -53,9 +52,13 @@
         #export_button {
             margin-left: 1400px;
         }
+
+        .darkmode {
+            background-color:grey;
+            color: white;
+        }
     </style>
 </head>
-
 <body>
 
     <x-nav-user></x-nav-user>
@@ -67,6 +70,13 @@
                 data-bs-toggle="dropdown" aria-expanded="false">
                 Monthly Attendance
             </button>
+            <button type="button" class="btn btn-warning" id="daily_attendence">
+                daily attendence
+            </button>
+            <button type="button" class="btn btn-dark" id="theme_change">
+                change theme
+            </button>
+            <span id="result"></span>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                 <li><a class="dropdown-item" value="march">March 2025</a></li>
@@ -127,7 +137,7 @@
 
     </div>
     </form>
-    <form action="/attendece_export/{{Auth::user()->id}}">
+    <form action="/attendece_export/{{ Auth::user()->id }}">
         <button class="btn btn-warning btn-sm mt-3" id="export_button">
             <i class="bi bi-download"></i> Export Data
         </button>
@@ -144,7 +154,7 @@
 
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
             @foreach ($monthly_record as $record)
                 <tr>
                     <td>{{ $record->date }}</td>
@@ -228,8 +238,54 @@
             })
         })
 
+        $("#daily_attendence").click(function() {
+            $.ajax({
+                url: '/attendance-daily',
+                method: 'GET',
+                data: {
+                    id: {{ Auth::user()->id }}, 
+                },
+                success:function(response) {
+
+                    if (response.data) {
+
+
+                        let rows = '';
+
+                        rows += `
+                <tr>
+                    <td>${response.data.date}</td>
+                    <td>${response.data.sign_in}</td>
+                    <td>${response.data.sign_out}</td>
+                    <td>${response.data.total_time}</td>
+                    <td>${response.data.attendance_status}</td>
+                </tr>
+            `;
+
+                        $('#tbody').html(rows);
+
+
+                    }
+
+
+                }
+
+            })
+
+        })
+
 
     });
+</script>
+<script>
+    const button = document.getElementById('theme_change');
+    button.addEventListener('mouseover', changeTheme)
+
+
+    function changeTheme() {
+
+        document.body.classList.toggle('darkmode');
+    }
 </script>
 
 </html>

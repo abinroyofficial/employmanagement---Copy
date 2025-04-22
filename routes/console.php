@@ -11,5 +11,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('create-daily-attendance')
-    ->dailyAt('18:00')
+    ->dailyAt('18:30')
     ->runInBackground();

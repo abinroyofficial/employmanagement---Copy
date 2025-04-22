@@ -19,24 +19,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::get('/employ-dashboard', function () {
-    return view('employ-dashboard');
-})->middleware(['auth', 'verified'])->name('employ-dashboard');
-
-Route::get('/superadmin-dashboard', function () {
-    return view('superadmin-dashboard');
-})->middleware(['auth', 'verified'])->name('superadmin-dashboard');
-
-Route::get('/manager-dashboard', function () {
-    return view('manager-dashboard');
-})->middleware(['auth', 'verified'])->name('manager-dashboard');
 
 
 Route::middleware('auth')->group(function () {
@@ -81,6 +68,7 @@ Route::get('/attendence/{id}',[AttendenceController::class,'index'])->name('atte
 Route::post('/attendance-store',[AttendenceController::class,'store'])->name('attendence-store');
 Route::get('/attendance-monthly',[AttendenceController::class,'show'])->name('attendence-monthly');
 Route::get('/attendence-request',[AttendenceController::class,'attendenceRequest'])->name('attendence-request');
+Route::get('/attendance-daily',[AttendenceController::class,'attendance_daily']);
 
 Route::get('/leave/{id}',[LeaveController::class,'index'])->name('leave');
 Route::post('/leave',[LeaveController::class,'store'])->name('leave-store');
@@ -104,7 +92,7 @@ Route::group(['middleware' => ['role:manager|senior manager']],function(){
 Route::get('/my-team/{id}',[ManagerController::class,'myteam'])->name('my-team');
 Route::get('/my-team-requests/{id}',[RequestController::class,'index'])->name('show-team-request');
 Route::get('/my-team-requests-wfh/{id}',[RequestController::class,'show'])->name('show-team-request');
-Route::get('/my-team-requests-regulisation/{id}',[RequestController::class,'regulizationRequest'])->name('show-team-request');
+Route::get('/my-team-requests-regulisation/{id}',[RequestController::class,'regulizationRequest'])->name('show-team-request-reg');
 Route::get('/update-leaveRequest',[RequestController::class,'update'])->name('update-leaveRequest');
 Route::get('/approve-regulization',[RequestController::class,'approve'])->name('approve-regulization');
 Route::get('/add_task/{id}',[TaskController::class,'show'])->name('add_task');

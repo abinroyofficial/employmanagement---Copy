@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>add salary details </h1>
+    
 </body>
 </html>

@@ -15,10 +15,10 @@ class AttendenceController extends Controller
     public function index($id)
     {
         $data = Manager::where('user_id', $id)->first();
-        
+
         $monthly_record = Attendence::join('leave_types', 'attendences.attendance_status', '=', 'leave_types.id')->where('user_id', $id)->get();
         //$monthly_record = Attendence::where('user_id', $id)->get();
-        
+
         return view('attendence.index', compact('data', 'monthly_record'));
     }
     public function store(Request $request)
@@ -80,7 +80,10 @@ class AttendenceController extends Controller
         if ($month) {
             $monthly_record = Attendence::where('user_id', $id)
                 ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$month])
+                ->where('date', '!=', \Carbon\Carbon::today()->toDateString())
+                ->with('LeaveType')
                 ->get();
+               
         }
 
         if ($request->ajax()) {
@@ -92,9 +95,21 @@ class AttendenceController extends Controller
         return view('attendence.attendence-request');
     }
 
-    public function export($userId) 
+    public function export($userId)
     {
-        $filename ='attendence.xlsx';
-        return Excel::download(new AttendencesExport($userId),$filename);
+        $filename = 'attendence.xlsx';
+        return Excel::download(new AttendencesExport($userId), $filename);
+    }
+
+    public function attendance_daily(Request $request)
+    {
+        $id = $request->input('id');
+        $daily_record = Attendence::where('user_id', $id)
+            ->where('date', \Carbon\Carbon::today()->toDateString())
+            ->first();
+
+        return response()->json([
+            'data' => $daily_record
+        ]);
     }
 }
