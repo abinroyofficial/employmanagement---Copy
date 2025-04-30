@@ -10,7 +10,7 @@
         body {
             font-family: "Times New Roman", serif;
             background-color: #f4f4f4;
-            
+
         }
 
         .container {
@@ -103,7 +103,7 @@
         <form action="/wfh" method="POST">
             @csrf
             <input type="hidden" name="user_id" id="user_id" value="{{ $data->user_id }}">
-            
+
             <label for="">DATE OF APPLICATION:</label>
             <p>{{ \Carbon\Carbon::today()->toDateString() }}</p>
             @foreach ($leave_types as $leave_type)
@@ -126,12 +126,12 @@
             <div class="form-group">
                 <label for="session">Session</label>
                 <select id="session" name="session" required>
-                    
+
                     <option value="">Select Session</option>
                     @foreach( $sessions as $session)
                     <option value="{{$session->id}}">{{$session->session_name}}</option>
                     @endforeach
-                 
+
                 </select>
             </div>
 
@@ -164,3 +164,5 @@
 </body>
 
 </html>
+
+<h1>text branch</h1>
