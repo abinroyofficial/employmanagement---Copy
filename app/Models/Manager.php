@@ -28,12 +28,13 @@ class Manager extends Model
         'work_time_to',
         'salary',
         'leave',
+        'photo'
     ];
     public function department()
     {
         return $this->belongsTo(department::class,);
     }
-    
+
     public function gender()
     {
         return $this->belongsTo(Gender::class);

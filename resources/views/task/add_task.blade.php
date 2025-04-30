@@ -201,10 +201,10 @@
             $("#insert_task").submit(function(event) {
                 event.preventDefault();
                 var formData = new FormData(this);
-                // for (var [key, value] of formData.entries()) {
-                //     console.log(key + ": " + value);
-                //     console.log(value);
-                // }
+                for (var [key, value] of formData.entries()) {
+                    console.log(key + ": " + value);
+                    console.log(value);
+                }
                 
  
                 $.ajax({

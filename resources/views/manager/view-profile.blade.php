@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: "Times New Roman", serif;
             letter-spacing: 5px;
@@ -77,21 +78,44 @@
         .back-button:hover {
             background-color: #0056b3;
         }
-        
+
+        .profile-image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+
+            border: 3px solid #007bff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
-<body>
-    
-    <x-nav-user></x-nav-user>
-    
 
-    
-    
+<body>
+
+    <x-nav-user></x-nav-user>
+
+
+
+
     <div class="container">
-      
+
 
         <div class="detail">
-            
+            <div class="profile-image-container">
+                @if ($data->photo && file_exists(public_path('storage/images/' . $data->photo)))
+                    <img src="{{ asset('storage/images/' . $data->photo) }}" alt="{{ $data->name ?? 'Profile Photo' }}"
+                        class="profile-image">
+                @else
+                    <img src="{{ asset('storage/images/default.png') }}" alt="Done" class="profile-image">
+                @endif
+
+
+            </div>
             <span hidden class="value">{{ $data->user_id }}</span>
         </div>
         <div class="detail">
@@ -112,11 +136,11 @@
         </div>
         <div class="detail">
             <span class="label">Department:</span>
-            <span class="value">{{ $data->department->dept_name}}</span>
+            <span class="value">{{ $data->department->dept_name }}</span>
         </div>
         <div class="detail">
             <span class="label">Gender:</span>
-            <span class="value">{{ $data->gender->gender_name}}</span>
+            <span class="value">{{ $data->gender->gender_name }}</span>
         </div>
         <div class="detail">
             <span class="label">Reporting Manager</span>
@@ -126,7 +150,7 @@
             <span class="label">Working Time</span>
             <span class="value">{{ $data->work_time_from }} To {{ $data->work_time_to }}</span>
         </div>
-        
+
         <div class="detail">
             <span class="label">Salary:</span>
             <span class="value">{{ $data->salary }}</span>
@@ -136,8 +160,9 @@
             <span class="value">{{ $data->leave }}</span>
         </div>
 
-        
+
     </div>
 
 </body>
+
 </html>

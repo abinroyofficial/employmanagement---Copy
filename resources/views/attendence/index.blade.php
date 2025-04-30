@@ -57,6 +57,9 @@
             background-color:grey;
             color: white;
         }
+        #pdf{
+            margin-left: 1400px;
+        }
     </style>
 </head>
 <body>
@@ -71,7 +74,7 @@
                 Monthly Attendance
             </button>
             <button type="button" class="btn btn-warning" id="daily_attendence">
-                daily attendence
+                Time Tracking Information
             </button>
             <button type="button" class="btn btn-dark" id="theme_change">
                 change theme
@@ -137,11 +140,14 @@
 
     </div>
     </form>
+
+    <a href="/export_pdf/{{ Auth::user()->id }}"><button class="btn btn-warning btn-sm mt-4" id="pdf"><span>PDF</span></button></a>
     <form action="/attendece_export/{{ Auth::user()->id }}">
-        <button class="btn btn-warning btn-sm mt-3" id="export_button">
+        <button class="btn btn-success btn-sm mt-3" id="export_button">
             <i class="bi bi-download"></i> Export Data
         </button>
     </form>
+    
 
     <table class="table table-bordered">
         <thead style="background-color: grey;color:white">

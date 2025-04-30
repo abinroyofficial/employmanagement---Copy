@@ -8,6 +8,7 @@ use App\Models\Manager;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AttendenceController extends Controller
 {
@@ -49,9 +50,10 @@ class AttendenceController extends Controller
             if ($totalHours >= 9.0) {
                 $data->attendance_status = 6;
             }
-            if ($totalHours >= 4.5) {
+            if ($totalHours >= 4.5 && $totalHours < 9.0) {
                 $data->attendance_status = 8;
-            } else {
+            }
+            if ($totalHours < 4.5) {
                 $data->attendance_status = 7;
             }
 
@@ -83,7 +85,6 @@ class AttendenceController extends Controller
                 ->where('date', '!=', \Carbon\Carbon::today()->toDateString())
                 ->with('LeaveType')
                 ->get();
-               
         }
 
         if ($request->ajax()) {
@@ -111,5 +112,13 @@ class AttendenceController extends Controller
         return response()->json([
             'data' => $daily_record
         ]);
+    }
+
+    public function pdf($id)
+    {
+
+        $data = Attendence::where('user_id', $id)->get();
+        $pdf = Pdf::loadView('pdf.attendence', ['datas' => $data]);
+        return $pdf->download('attendences.pdf');
     }
 }

@@ -98,7 +98,7 @@
                     <label for="name"><b>Name</b></label>
                     <input style="border:none" class="w3-input w3-border" type="text"
                         placeholder="Enter manager's full name" name="name" id="name"
-                        value="{{ $user->name }}">
+                        value="{{ $user->name }}" readonly>
                 </div>
             </div>
             <div class="form-row">

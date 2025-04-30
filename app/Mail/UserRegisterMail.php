@@ -17,6 +17,7 @@ class UserRegisterMail extends Mailable
     public $email;
     public $password;
     public $roles;
+  
     public function __construct($name,$email,$password,$roles)
     {
         $this->name = $name;

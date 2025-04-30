@@ -230,9 +230,24 @@
             <input type="text" class="search-bar" id="search_task" name="search_task" placeholder="Search task">
         </form>
 
-        <form id="export-tasks" action="/export-tasks" >
+        <form id="export-tasks" action="/export-tasks">
             <button type="submit" id="export_task_excel">export task</button>
         </form>
+
+
+        <form id="sort-tasks" class="mb-3">
+            <select class="form-control" id="sort_by" name="sort_by">
+                <option value="">Sort Tasks</option>
+                <option value="name_asc">Task Name (A-Z)</option>
+                <option value="name_desc">Task Name (Z-A)</option>
+                <option value="deadline_asc">Deadline Earliest </option>
+                <option value="deadline_desc">Deadline Latest</option>
+                <option value="time_asc">Time (Low to High)</option>
+                <option value="time_desc">Time (High to Low)</option>
+            </select>
+        </form>
+
+
 
         <div class="task-item" id="task-list">
             @foreach ($task_details as $task)
@@ -317,7 +332,7 @@
                             $('#task-name').text(response.data.task_name);
                             $('#task-description').text(response.data.task_description);
                             $('#task-deadline').text(response.data.task_deadline);
-                            $('#task-time').text(response.data.estimated_time);
+                            $('#task-time').text(response.data.estimated_time) + "HR";
                             $('#task-related').text(response.data.task_dependencies);
                             $('#task_id').val(response.data.id);
                         }
@@ -348,8 +363,38 @@
                     },
                 });
             });
+
+
+            $("#sort-tasks").on('input', function() {
+                $.ajax({
+                    url: "/sort-task",
+                    type: 'GET',
+                    data: $("#sort_by").serialize(),
+                    success: function(response) {
+                        if (response.datas) {
+                            let data = '';
+                            response.datas.forEach(function(task) {
+                                data += `
+                        <div class="task-items" data-task-id="${task.id}">
+                            <p style="color:grey;font-size:20px;text-transform:uppercase" id="task_name_search">
+                                <strong>${task.task_name}</strong>
+                            </p>
+                            <p id="task_description_search">${task.task_description}</p>
+                         
+                        </div>
+                    `;
+                            });
+                            $("#task-list").html(data);
+                        }
+                    },
+                });
+            });
+
+
+
         });
     </script>
+
 
 </body>
 

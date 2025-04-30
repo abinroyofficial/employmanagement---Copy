@@ -68,7 +68,9 @@ class TaskController extends Controller
 
         $email_id = User::where('id', $request->employee)->first()->email;
         //Mail::to($email_id)->cc('abinroy4321@gmail.com')->send(new TaskShedule($task_name,$task_description,$task_deadline,$user_name));
-        NewTaskCreatedEvent::dispatch($task_name,$task_description,$task_deadline,$user_name, $email_id);
+
+        // mails using event and listner 
+        NewTaskCreatedEvent::dispatch($task_name, $task_description, $task_deadline, $user_name, $email_id);
 
         return redirect()->route('add_task', ['id' => $request->employee]);
     }
@@ -146,5 +148,36 @@ class TaskController extends Controller
     {
         $filename = 'tasks.xlsx';
         return Excel::download(new TasksExport, $filename);
+    }
+
+    public function sort_task(Request $request)
+    {
+        $sort_value = $request->input('sort_by');
+        switch ($sort_value) {
+            case 'name_asc':
+                $tasks = Task::orderBy('task_name', 'asc')->get();
+                break;
+            case 'name_desc':
+                $tasks = Task::orderBy('task_name', 'desc')->get();
+                break;
+            case 'deadline_asc':
+                $tasks = Task::orderBy('task_deadline', 'asc')->get();
+                break;
+            case 'deadline_desc':
+                $tasks = Task::orderBy('task_deadline', 'desc')->get();
+                break;
+            case 'time_asc':
+                $tasks = Task::orderBy('estimated_time', 'asc')->get();
+                break;
+            case 'time_desc':
+                $tasks = Task::orderBy('estimated_time', 'desc')->get();
+                break;
+
+            default:
+                break;
+        }
+        return response()->json([
+            "datas" => $tasks,
+        ]);
     }
 }

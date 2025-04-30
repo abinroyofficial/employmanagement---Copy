@@ -105,11 +105,10 @@
 
 
         <form action="{{ route('store-info') }}" method="post"
-            class="w3-container w3-card-4 w3-padding-16 w3-white w3-round">
+            class="w3-container w3-card-4 w3-padding-16 w3-white w3-round" enctype="multipart/form-data">
             @csrf
 
-            <p>
-            </p>
+
             <input type="hidden" value="{{ $user->id }}" id="user_id" name="user_id">
             <div class="form-row">
                 <div class="form-group">
@@ -211,6 +210,13 @@
                     <input class="w3-input w3-border" type="text" name="leave" id="leave">
                 </div>
             </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="photo"><b>profile photo</b></label>
+                    <input class="w3-input w3-border" type="file" name="photo" id="photo">
+                </div>
+
+            </div>
         <p>
                 <button class="w3-button w3-light-grey w3-section w3-block w3-padding" type="submit"
                     id="submit-button">update details</button>
@@ -218,7 +224,7 @@
         </form>
     </div>
 
-    
+
 
 </body>
 

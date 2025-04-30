@@ -113,9 +113,11 @@ Route::post('/update_comment',[CommentController::class,'update']);
 Route::post('/reply_comment', [CommentController::class, 'storeReply']);
 Route::get('/view_task/{task_id}', [CommentController::class, 'viewTask'])->name('view.task');
 Route::get('/search-task',[TaskController::class,'search_task']);
+Route::get('/sort-task',[TaskController::class,'sort_task']);
 Route::post('/task-import',[TaskController::class,'task_import']);
 Route::get('/export-tasks',[TaskController::class,'export']);
 Route::get('attendece_export/{userId}', [AttendenceController::class,'export']);
+Route::get('export_pdf/{userId}', [AttendenceController::class,'pdf']);
 
 
 

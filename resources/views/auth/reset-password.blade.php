@@ -87,7 +87,7 @@
             </p>
             <p>
                 
-                <input class="w3-input w3-border" type="text" value={{$token}} name="token"
+                <input class="w3-input w3-border" type="hidden" value={{$token}} name="token"
                     id="token" >
                 @error('token')
                 <p class="text-red-400" style="color:red">{{ $message }}</p>
