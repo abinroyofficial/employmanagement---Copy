@@ -145,7 +145,7 @@
                     <form id="insertForm">
                         @csrf
                         <input type="hidden" name="user_id" id="user_id" value="{{ $data->user_id }}">
-                       
+
 
                         <input type="hidden" name="date" id="date"
                             value="{{ \Carbon\Carbon::today()->toDateString() }}">
@@ -196,25 +196,28 @@
             </tr>
         </thead>
         <tbody>
+
             @foreach ($value as $record)
-                <tr>
-                    <td>{{ $record->date }}</td>
-                    <td>{{ $record->sign_in }}</td>
-                    <td>{{ $record->sign_out }}</td>
-                    <td>{{ $record->total_time }}</td>
-                    <td>{{ $record->attendance_status }}</td>
-                    <td>
-                        @if (App\Models\Regulization::where('regulization_date', $record->date)->count() == 0)
-                            <button type="submit" class="w3-button w3-green w3-small" id="regulize">
-                                <i class="bi bi-check-circle"></i> apply regulization
-                            </button>
-                        @else
-                            <h6>applied</h6>
-                        @endif
+                @if ($record->user_id == Auth::user()->id)
+                    <tr>
+                        <td>{{ $record->date }}</td>
+                        <td>{{ $record->sign_in }}</td>
+                        <td>{{ $record->sign_out }}</td>
+                        <td>{{ $record->total_time }}</td>
+                        <td>{{ $record->attendance_status }}</td>
+                        <td>
+                            @if (App\Models\Regulization::where('regulization_date', $record->date)->count() == 0)
+                                <button type="submit" class="w3-button w3-green w3-small" id="regulize">
+                                    <i class="bi bi-check-circle"></i> apply regulization
+                                </button>
+                            @else
+                                <h6>applied</h6>
+                            @endif
 
 
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+                @endif
             @endforeach
         </tbody>
     </table>
@@ -237,8 +240,9 @@
                     data: $("#insertForm").serialize(),
                     success: function(response) {
                         $("#modalForm").modal('hide');
-                       
-                        var row = $("td:contains('" + response.regulization_date + "')").closest('tr');
+
+                        var row = $("td:contains('" + response.regulization_date +
+                            "')").closest('tr');
                         row.find("td:eq(5)").html('<h6>Applied</h6>');
 
                     }

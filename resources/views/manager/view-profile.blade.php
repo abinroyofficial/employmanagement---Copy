@@ -85,12 +85,12 @@
         }
 
         .profile-image {
-            width: 150px;
-            height: 150px;
+            margin-top: 20px;
+            width: 80px;
+            height: 100px;
             object-fit: cover;
-
-            border: 3px solid #007bff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0px;
         }
     </style>
 </head>
@@ -108,10 +108,9 @@
         <div class="detail">
             <div class="profile-image-container">
                 @if ($data->photo && file_exists(public_path('storage/images/' . $data->photo)))
-                    <img src="{{ asset('storage/images/' . $data->photo) }}" alt="{{ $data->name ?? 'Profile Photo' }}"
-                        class="profile-image">
+                    <img src="storage/images/{{ $data->photo }}" alt="{{ $data->name }}" class="product-image">
                 @else
-                    <img src="{{ asset('storage/images/default.png') }}" alt="Done" class="profile-image">
+                    <img src="{{ asset('storage/images/default.png') }}" alt="" class="profile-image">
                 @endif
 
 

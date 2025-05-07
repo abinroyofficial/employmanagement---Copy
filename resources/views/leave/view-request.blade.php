@@ -138,7 +138,7 @@
     <table class="table table-bordered">
         <thead style="background-color: grey;color:white">
             <tr>
-                <th>REGULIZATION DATE</th>
+
                 <th>REGULIZATION DATE</th>
                 <th>SESSION</th>
                 <th>DATE OF APPLICATION</th>
@@ -155,7 +155,7 @@
             <h4>REGULIZATION REQUEST</h4>
             @foreach ($data3 as $record2)
                 <tr>
-                    <td>{{ $record2->id }}</td>
+                    <td hidden>{{ $record2->id }}</td>
                     <td>{{ $record2->regulization_date }}</td>
                     <td>{{ $record2->session }}</td>
                     <td>{{ $record2->created_at->format('Y-m-d') }}</td>
