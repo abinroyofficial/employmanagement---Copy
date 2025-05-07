@@ -19,13 +19,16 @@ class NewTaskCreatedEvent
     public $task_deadline;
     public $user_name;
     public $email_id;
-    public function __construct($task_name, $task_description, $task_deadline, $user_name, $email_id)
+    public $taskId;
+
+    public function __construct($task_name, $task_description, $task_deadline, $user_name, $email_id,$taskId)
     {
         $this->task_name = $task_name;
         $this->task_description = $task_description;
         $this->task_deadline = $task_deadline;
         $this->user_name = $user_name;
         $this->email_id = $email_id;
+        $this->taskId = $taskId;
     }
 
 

@@ -111,15 +111,16 @@
                 <select id="leaveType" name="leave_type" required>
                     <option value="">Select Leave Type</option>
                     @foreach ($leave_types as $leave_type)
-                        @if ($leave_type->type_name == 'CASUAL LEAVE' && $leave_count->casual_leave > 0)
+                        @if ($leave_type->id == 1 && $leave_count->casual_leave > 0)
                             <option value="{{ $leave_type->id }}">{{ $leave_type->type_name }}</option>
-                        @elseif ($leave_type->type_name == 'SICK LEAVE' && $leave_count->sick_leave > 0)
+                        @elseif ($leave_type->id == 2 && $leave_count->sick_leave > 0)
                             <option value="{{ $leave_type->id }}">{{ $leave_type->type_name }}</option>
-                        @elseif ($leave_type->type_name == 'EARNED LEAVE' && $leave_count->earned_leave > 0)
+                        @elseif ($leave_type->id == 3 && $leave_count->earned_leave > 0)
                             <option value="{{ $leave_type->id }}">{{ $leave_type->type_name }}</option>
-                        
+                        @elseif ($leave_type->id == 4 )
+                            <option value="{{ $leave_type->id }}">{{ $leave_type->type_name }}</option>
                         @else
-                            <option value="{{ $leave_type->id }}">{{ $leave_type->type_name }}</option>
+                        
                         @endif
                     @endforeach
                 </select>
@@ -143,10 +144,10 @@
                 <label for="session">Session</label>
                 <select id="session" name="session" required>
                     <option value="">Select Session</option>
-                    @foreach($sessions as $session)
-                    <option value="{{$session->id}}">{{$session->session_name}}</option>
+                    @foreach ($sessions as $session)
+                        <option value="{{ $session->id }}">{{ $session->session_name }}</option>
                     @endforeach
-                    
+
                 </select>
             </div>
 

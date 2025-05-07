@@ -37,14 +37,14 @@ require __DIR__.'/auth.php';
 Route::group(['middleware' => ['role:super admin|manager|senior manager']],function(){
     Route::resource('permissions',PermissionController::class);
     Route::get('permissions/{id}/delete', [PermissionController::class, 'destroy'])->middleware('permission:delete');
-    
-    
+
+
     Route::resource('roles',RoleController::class);
     Route::get('roles/{id}/delete', [RoleController::class, 'destroy'])->middleware('permission:delete');
     Route::get('roles/{id}/give-permissions', [RoleController::class, 'addPermissionToRole']);
     Route::put('roles/{id}/give-permissions', [RoleController::class, 'givePermissionToRole']);
-    
-    
+
+
     Route::resource('users',UserController::class);
     Route::get('users/{id}/delete', [UserController::class, 'destroy']);
     Route::get('updateinfo/{id}', [ManagerController::class, 'updateinfo']);
@@ -56,7 +56,7 @@ Route::group(['middleware' => ['role:super admin|manager|senior manager']],funct
     Route::post('/store-department',[DepartmentController::class,'store']);
     Route::post('/store-leave-type',[LeaveController::class,'store_leave_type']);
 
-    
+
 });
 
 
@@ -119,7 +119,13 @@ Route::get('/export-tasks',[TaskController::class,'export']);
 Route::get('attendece_export/{userId}', [AttendenceController::class,'export']);
 Route::get('export_pdf/{userId}', [AttendenceController::class,'pdf']);
 
+Route::get('/notifications', [TaskController::class, 'fetch'])->name('notifications.fetch');
 
+
+
+
+
+Route::get('/view_task_not',[TaskController::class,'view_task_not'])->name('view_task_not');
 
 
 
