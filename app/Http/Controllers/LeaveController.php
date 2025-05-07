@@ -28,6 +28,8 @@ class LeaveController extends Controller
 
         $data = Manager::where('user_id', $id)->first();
         $leave_count = UserLeave::where('user_id', $data->user_id)->first();
+      
+
         $leave_types = LeaveType::where('type', 'LEAVE')->get();
         $sessions = Section::all();
 

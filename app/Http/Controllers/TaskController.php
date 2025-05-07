@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class TaskController extends Controller
@@ -56,7 +57,7 @@ class TaskController extends Controller
         $task_deadline = $request->task_deadline;
         $user_name = User::where('id', $request->employee)->first()->name;
 
-        Task::create([
+        $task = Task::create([
             'user_id' => $request->employee,
             'task_name' => $request->task_name,
             'task_description' => $request->task_description,
@@ -65,12 +66,13 @@ class TaskController extends Controller
             'task_dependencies' => $request->task_dependencies
 
         ]);
+        $taskId = $task->id;
 
         $email_id = User::where('id', $request->employee)->first()->email;
         //Mail::to($email_id)->cc('abinroy4321@gmail.com')->send(new TaskShedule($task_name,$task_description,$task_deadline,$user_name));
 
-        // mails using event and listner 
-        NewTaskCreatedEvent::dispatch($task_name, $task_description, $task_deadline, $user_name, $email_id);
+        // mails using event and listner
+        NewTaskCreatedEvent::dispatch($task_name, $task_description, $task_deadline, $user_name, $email_id, $taskId);
 
         return redirect()->route('add_task', ['id' => $request->employee]);
     }
@@ -180,4 +182,21 @@ class TaskController extends Controller
             "datas" => $tasks,
         ]);
     }
+
+
+    public function fetch()
+    {
+        $notifications = Auth::user()->unreadNotifications;
+
+        return response()->json($notifications);
+    }
+
+    public function view_task_not()
+    {
+
+        $task_details = Task::orderBy('created_at', 'desc')->get();
+
+        return view('task.view_task', compact('task_details'));
+    }
 }
+
