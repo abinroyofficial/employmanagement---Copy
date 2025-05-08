@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegulizationController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserLeaveController;
@@ -65,6 +66,7 @@ Route::group(['middleware' => ['role:super admin|employ|manager|senior manager']
 Route::get('/view-profile/{id}',[ManagerController::class,'viewprofile']);
 
 Route::get('/attendence/{id}',[AttendenceController::class,'index'])->name('attendence');
+Route::get('/salary/{id}',[SalaryController::class,'index'])->name('salary');
 Route::post('/attendance-store',[AttendenceController::class,'store'])->name('attendence-store');
 Route::get('/attendance-monthly',[AttendenceController::class,'show'])->name('attendence-monthly');
 Route::get('/attendence-request',[AttendenceController::class,'attendenceRequest'])->name('attendence-request');

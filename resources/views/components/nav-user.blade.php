@@ -3,9 +3,9 @@
 
 
     <div class="w3-right w3-hide-small">
-        
+
         @can('view permission')
-        <a href="{{ route('permissions.index') }}" class="w3-bar-item w3-button">permissions</a>  
+        <a href="{{ route('permissions.index') }}" class="w3-bar-item w3-button">permissions</a>
         @endcan
         @can('basic')
         @can('create task')
@@ -14,7 +14,7 @@
         @can('user task')
         <a href="/view_task" class="w3-bar-item w3-button">view task</a>
         @endcan
-        <a href="" class="w3-bar-item w3-button">salary</a>
+        <a href="/salary/{{Auth::user()->id}}" class="w3-bar-item w3-button">salary</a>
         <a href="/attendence-request" class="w3-bar-item w3-button">attendence request</a>
         <a href="/attendence/{{Auth::user()->id}}" class="w3-bar-item w3-button">attendence</a>
         <a href="/view-profile/{{Auth::user()->id}}" class="w3-bar-item w3-button">Profile</a>

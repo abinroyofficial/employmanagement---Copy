@@ -110,7 +110,7 @@
                 @if ($data->photo && file_exists(public_path('storage/images/' . $data->photo)))
                     <img src="storage/images/{{ $data->photo }}" alt="{{ $data->name }}" class="product-image">
                 @else
-                    <img src="{{ asset('storage/images/default.png') }}" alt="" class="profile-image">
+                    <img src="{{ asset('storage/images/default.png') }}" alt="not get" class="profile-image">
                 @endif
 
 
