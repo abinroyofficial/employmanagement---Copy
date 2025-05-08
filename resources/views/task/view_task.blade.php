@@ -380,7 +380,7 @@
                                 <strong>${task.task_name}</strong>
                             </p>
                             <p id="task_description_search">${task.task_description}</p>
-                         
+
                         </div>
                     `;
                             });

@@ -23,7 +23,7 @@ class WorkFromHomeController extends Controller
 
     public function store(Request $request)
     {
-       
+
 
         $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -33,7 +33,7 @@ class WorkFromHomeController extends Controller
             'remarks' => 'nullable|string',
         ]);
 
-       
+
 
         $fromDate = Carbon::parse($request->from_date);
         $toDate = Carbon::parse($request->to_date);
@@ -50,7 +50,7 @@ class WorkFromHomeController extends Controller
 
 
         $totalDays = $fromDate->diffInDays($toDate) + 1;
-       
+
 
 
         Workfromhome::create([
@@ -64,7 +64,7 @@ class WorkFromHomeController extends Controller
             'leave_type_id' => $request->type,
 
         ]);
-      
+
         return redirect()->route('show-request', ['id' => $request->user_id]);
     }
 }
