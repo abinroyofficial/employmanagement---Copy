@@ -147,7 +147,7 @@
             <i class="bi bi-download"></i> Export Data
         </button>
     </form>
-    
+
 
     <table class="table table-bordered">
         <thead style="background-color: grey;color:white">
@@ -208,7 +208,7 @@
                 data: $('#attendence_form').serialize(),
                 success: function(response) {
                     alert(response.message);
-                    location.reload();
+
 
 
                 },
@@ -249,7 +249,7 @@
                 url: '/attendance-daily',
                 method: 'GET',
                 data: {
-                    id: {{ Auth::user()->id }}, 
+                    id: {{ Auth::user()->id }},
                 },
                 success:function(response) {
 

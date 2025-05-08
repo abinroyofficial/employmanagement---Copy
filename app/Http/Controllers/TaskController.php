@@ -198,5 +198,6 @@ class TaskController extends Controller
 
         return view('task.view_task', compact('task_details'));
     }
+
 }
 

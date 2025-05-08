@@ -64,7 +64,7 @@
         </thead>
         <tbody id="tbody">
             <tr>
-                <td>{{ $currentMonthName }} {{$currentYear}}</td>
+                <td>{{ $currentMonthName }} - {{$currentYear}}</td>
                 <td>{{ $totalDaysInMonth}}</td>
                 <td>{{ $datas->salary}}</td>
                 <td>{{ $attendance_days}}</td>

@@ -18,7 +18,7 @@ class AttendenceController extends Controller
         $data = Manager::where('user_id', $id)->first();
 
         $monthly_record = Attendence::join('leave_types', 'attendences.attendance_status', '=', 'leave_types.id')->where('user_id', $id)->get();
-        //$monthly_record = Attendence::where('user_id', $id)->get();
+        
 
         return view('attendence.index', compact('data', 'monthly_record'));
     }
