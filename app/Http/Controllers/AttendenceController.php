@@ -85,6 +85,7 @@ class AttendenceController extends Controller
                 ->where('date', '!=', \Carbon\Carbon::today()->toDateString())
                 ->with('LeaveType')
                 ->get();
+            
         }
 
         if ($request->ajax()) {

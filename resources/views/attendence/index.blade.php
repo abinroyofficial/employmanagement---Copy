@@ -245,7 +245,9 @@
                     id: {{ Auth::user()->id }},
                 },
                 success: function(response) {
+                    console.log(response);
 
+                    $('#pagination').hide();
                     $("table tbody").html(response);
 
 
@@ -322,6 +324,8 @@
                 id: {{ Auth::user()->id }},
             },
             success: function(response) {
+                console.log(response.html);
+
                 let rows = '';
 
                 response.html.data.forEach(function(record) {
