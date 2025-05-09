@@ -22,7 +22,7 @@ class SalaryController extends Controller
         $absent_days = Attendence::where('user_id', $id)->whereIn('attendance_status', [4, 7])->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)->get()->count();
         $attendance_days = Attendence::where('user_id', $id)
-            ->whereNotIn('attendance_status', [4, 7])->whereYear('created_at', $currentYear)
+            ->whereNotIn('attendance_status', [4,7])->whereYear('created_at', $currentYear)
             ->whereMonth('created_at', $currentMonth)
             ->get()->count();
         $atendence_percent = number_format(($attendance_days / $totalDaysInMonth) * 100, 2);

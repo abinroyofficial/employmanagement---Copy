@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,14 +55,21 @@
         }
 
         .darkmode {
-            background-color:grey;
+            background-color: grey;
             color: white;
         }
-        #pdf{
+
+        #pdf {
             margin-left: 1400px;
+        }
+
+        .float-left {
+            margin-left: 1200px;
+            margin-top: 40px;
         }
     </style>
 </head>
+
 <body>
 
     <x-nav-user></x-nav-user>
@@ -141,7 +149,8 @@
     </div>
     </form>
 
-    <a href="/export_pdf/{{ Auth::user()->id }}"><button class="btn btn-warning btn-sm mt-4" id="pdf"><span>PDF</span></button></a>
+    <a href="/export_pdf/{{ Auth::user()->id }}"><button class="btn btn-warning btn-sm mt-4"
+            id="pdf"><span>PDF</span></button></a>
     <form action="/attendece_export/{{ Auth::user()->id }}">
         <button class="btn btn-success btn-sm mt-3" id="export_button">
             <i class="bi bi-download"></i> Export Data
@@ -172,8 +181,11 @@
             @endforeach
 
         </tbody>
-    </table>
 
+    </table>
+    <div class="float-left" id="pagination">
+        {{ $monthly_record->links() }}
+    </div>
 
 
 
@@ -251,7 +263,7 @@
                 data: {
                     id: {{ Auth::user()->id }},
                 },
-                success:function(response) {
+                success: function(response) {
 
                     if (response.data) {
 
@@ -291,6 +303,43 @@
     function changeTheme() {
 
         document.body.classList.toggle('darkmode');
+    }
+</script>
+
+<script>
+    $(document).on('click', "#pagination a", function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href').split('page=')[1];
+        fetchData(url);
+
+    });
+
+    function fetchData(url) {
+        $.ajax({
+            type: 'GET',
+            url: '/pagination-ajax?page=' + url,
+            data: {
+                id: {{ Auth::user()->id }},
+            },
+            success: function(response) {
+                let rows = '';
+
+                response.html.data.forEach(function(record) {
+                    rows += `
+                    <tr>
+                        <td>${record.date}</td>
+                        <td>${record.sign_in}</td>
+                        <td>${record.sign_out}</td>
+                        <td>${record.total_time}</td>
+                        <td>${record.type_name}</td>
+                    </tr>
+                `;
+                });
+
+                $('#tbody').html(rows);
+                $('#pagination').html(response.pagination);
+            }
+        });
     }
 </script>
 

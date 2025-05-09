@@ -128,6 +128,7 @@ Route::get('/notifications', [TaskController::class, 'fetch'])->name('notificati
 
 
 Route::get('/view_task_not',[TaskController::class,'view_task_not'])->name('view_task_not');
+Route::get('/pagination-ajax',[AttendenceController::class,'fetchData']);
 
 
 

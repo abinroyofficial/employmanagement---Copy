@@ -17,8 +17,8 @@ class AttendenceController extends Controller
     {
         $data = Manager::where('user_id', $id)->first();
 
-        $monthly_record = Attendence::join('leave_types', 'attendences.attendance_status', '=', 'leave_types.id')->where('user_id', $id)->get();
-        
+        $monthly_record = Attendence::join('leave_types', 'attendences.attendance_status', '=', 'leave_types.id')->where('user_id', $id)->paginate(3);
+
 
         return view('attendence.index', compact('data', 'monthly_record'));
     }
@@ -120,5 +120,17 @@ class AttendenceController extends Controller
         $data = Attendence::where('user_id', $id)->get();
         $pdf = Pdf::loadView('pdf.attendence', ['datas' => $data]);
         return $pdf->download('attendences.pdf');
+    }
+
+    public function fetchData(Request $request)
+    {
+        $id = $request->input('id');
+        $monthly_record = Attendence::join('leave_types', 'attendences.attendance_status', '=', 'leave_types.id')->where('user_id', $id)->paginate(3);
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => $monthly_record,
+                'pagination' => $monthly_record->links()->render()
+            ]);
+        }
     }
 }
