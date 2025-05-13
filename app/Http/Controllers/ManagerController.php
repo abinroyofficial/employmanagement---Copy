@@ -19,6 +19,7 @@ class ManagerController extends Controller
 
         $this->middleware('permission:update user biodata', ['only' => ['updateinfo', 'store']]);
         $this->middleware('permission:team list', ['only' => ['myteam']]);
+        $this->middleware('permission:all_employ', ['only' => ['all_employ','emp_details']]);
     }
 
 
@@ -72,7 +73,6 @@ class ManagerController extends Controller
                 'salary' => $request->salary,
                 'leave' => $request->leave,
                 'photo' => $filename,
-
             ]);
         }
         return redirect('users')->with('status', 'user info  updated successfully');
@@ -91,5 +91,20 @@ class ManagerController extends Controller
 
 
         return view('manager.viewTeam', compact('team_members'));
+    }
+
+    public function emp_details(){
+        $Users = User::all();
+        return view('manager.all_data', compact('Users', ));
+    }
+
+    public function all_employ(Request $request){
+        $user_id = $request->input('User_Id');
+        $details= Manager::where('user_id', $user_id)->get();
+
+        return response()->json([
+            'data' => $details,
+        ]);
+
     }
 }

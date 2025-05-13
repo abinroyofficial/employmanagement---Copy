@@ -7,6 +7,13 @@
         @can('view permission')
         <a href="{{ route('permissions.index') }}" class="w3-bar-item w3-button">permissions</a>
         @endcan
+        @can('all_attendece')
+        <a href="/attendence-all" class="w3-bar-item w3-button">all attendece</a>
+        @endcan
+        @can('all_employ')
+        <a href="/emp_details" class="w3-bar-item w3-button">employ details</a>
+        @endcan
+
         @can('basic')
         @can('create task')
         <a href="/task" class="w3-bar-item w3-button">Tasks</a>

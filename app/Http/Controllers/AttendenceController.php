@@ -5,13 +5,24 @@ namespace App\Http\Controllers;
 use App\Exports\AttendencesExport;
 use App\Models\Attendence;
 use App\Models\Manager;
+use App\Models\Task;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Routing\Controller;
 
 class AttendenceController extends Controller
 {
+
+
+    public function __construct()
+    {
+
+        $this->middleware('permission:all_attendece', ['only' => ['attendece_all_details', 'attendeceAll']]);
+
+    }
 
     public function index($id)
     {
@@ -77,19 +88,16 @@ class AttendenceController extends Controller
         $month = $request->input('month');
         $id = $request->input('id');
         $month = date('Y-m', strtotime($month));
-
-
         if ($month) {
             $monthly_record = Attendence::where('user_id', $id)
                 ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$month])
                 ->where('date', '!=', \Carbon\Carbon::today()->toDateString())
                 ->with('LeaveType')
                 ->get();
-            
         }
 
         if ($request->ajax()) {
-            return view('attendence.monthly-attendence', compact('monthly_record'));
+            return view('attendence.monthly-attendence', compact('monthly_record', 'month'));
         }
     }
     public function attendenceRequest()
@@ -132,6 +140,46 @@ class AttendenceController extends Controller
                 'html' => $monthly_record,
                 'pagination' => $monthly_record->links()->render()
             ]);
+        }
+    }
+
+    public function attendeceAll()
+    {
+        $Users = User::all();
+        $all_attendece = Attendence::all();
+        return view('attendence.all_data', compact('Users', 'all_attendece'));
+    }
+
+    public function attendece_all_details(Request $request)
+    {
+        $user_id = $request->input('User_Id');
+
+        $all_attendece = Attendence::where('user_id', $user_id)->get();
+
+        return response()->json([
+            'data' => $all_attendece,
+
+
+        ]);
+    }
+
+    public function attendece_user_search(Request $request)
+    {
+        $searchTerm = $request->input('search_task');
+        $Users = User::where('name', 'LIKE', '%' . $searchTerm . '%')->get();
+
+        if ($request->ajax()) {
+            if ($Users->isNotEmpty()) {
+
+                return response()->json([
+                    'view' => view('attendence.search', compact('Users'))->render(),
+                ]);
+            } else {
+
+                return response()->json([
+                    'searchresult' => "<h5>No results found</h5>"
+                ]);
+            }
         }
     }
 }

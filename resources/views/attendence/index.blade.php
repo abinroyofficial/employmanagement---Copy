@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -102,6 +101,8 @@
                 <li><a class="dropdown-item" value="December">December 2025</a></li>
             </ul>
         </div>
+        
+
 
         <form action="" id="attendence_form">
             @csrf
@@ -189,6 +190,7 @@
 
 
 
+
 </body>
 <script>
     $(document).ready(function() {
@@ -245,8 +247,6 @@
                     id: {{ Auth::user()->id }},
                 },
                 success: function(response) {
-                    console.log(response);
-
                     $('#pagination').hide();
                     $("table tbody").html(response);
 
@@ -266,6 +266,7 @@
                     id: {{ Auth::user()->id }},
                 },
                 success: function(response) {
+                    $('#pagination').hide();
 
                     if (response.data) {
 
